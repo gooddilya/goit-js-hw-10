@@ -4,7 +4,7 @@ img {
   height: auto;
 }
 .breed-select {
-  width: 400px;
+  max-width: 290px;
   padding: 12px;
   margin: 24px;
   font-size: medium;
