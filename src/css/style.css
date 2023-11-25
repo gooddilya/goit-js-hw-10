@@ -1,10 +1,10 @@
 img {
   display: block;
-  width: 400px;
+  width: 500px;
   height: auto;
 }
 .breed-select {
-  width: 300px;
+  width: 400px;
   padding: 12px;
   margin: 24px;
   font-size: medium;
@@ -27,12 +27,16 @@ img {
 
 .cat-info {
   display: flex;
-  justify-content: space-around;
   margin: 0 auto;
+  justify-content: center;
   gap: 32px;
   max-width: 100%;
   background-color: aliceblue;
   padding: 24px;
+}
+
+.box {
+  max-width: 700px;
 }
 
 h1 {
@@ -43,9 +47,13 @@ p {
   color: #122a50;
 }
 
-.loader {
+.position-relative {
   position: relative;
-  margin: 20%;
+}
+.loader {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
   width: 250px;
   display: flex;
   justify-content: space-between;
