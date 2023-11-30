@@ -12,38 +12,46 @@ const ref = {
 };
 const { selector, catInfo, loader, error } = ref;
 
+selector.addEventListener('change', onSelectBreed);
+
+selector.classList.add('is-hidden');
 loader.classList.replace('loader', 'is-hidden');
 error.classList.add('is-hidden');
-catInfo.classList.add('is-hidden');
 
-let arrBreedsId = [];
 fetchBreeds()
-  .then(data => {
-    data.forEach(element => {
-      arrBreedsId.push({ text: element.name, value: element.id });
+  .then(function (data) {
+    const arrBreedsId = data.map(element => {
+      return { text: element.name, value: element.id };
     });
     new SlimSelect({
       select: selector,
       data: arrBreedsId,
     });
   })
-  .catch(onFetchError);
-
-selector.addEventListener('change', onSelectBreed);
+  .catch(onFetchError)
+  .finally(loader.classList.replace('loader', 'is-hidden'));
 
 function onSelectBreed(event) {
   loader.classList.replace('is-hidden', 'loader');
   selector.classList.add('is-hidden');
   catInfo.classList.add('is-hidden');
 
-  const breedId = event.currentTarget.value;
+  const breedId = event.target.value;
+
   fetchCatByBreed(breedId)
     .then(data => {
       loader.classList.replace('loader', 'is-hidden');
       selector.classList.remove('is-hidden');
+
       const { url, breeds } = data[0];
 
-      catInfo.innerHTML = `<div class="img"><img src="${url}" alt="${breeds[0].name}" width="400"/></div><div class="box"><h1>${breeds[0].name}</h1><p>${breeds[0].description}</p><p><b>Temperament:</b> ${breeds[0].temperament}</p></div>`;
+      catInfo.innerHTML = `<div class="img">
+                          <img src="${url}" alt="${breeds[0].name}" 
+                          width="400"/></div><div class="box">
+                          <h1>${breeds[0].name}</h1>
+                          <p>${breeds[0].description}</p>
+                          <p><b>Temperament:</b> 
+                          ${breeds[0].temperament}</p></div>`;
       catInfo.classList.remove('is-hidden');
     })
     .catch(onFetchError);
