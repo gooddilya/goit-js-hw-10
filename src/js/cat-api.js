@@ -14,3 +14,7 @@ export function fetchCatByBreed(breedId) {
     .get('images/search?breed_ids=' + breedId)
     .then(response => response.data);
 }
+
+export function onFetchError(error) {
+  return axios.get('breeds123').then(response => response.data);
+}

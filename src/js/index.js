@@ -1,4 +1,4 @@
-import { fetchBreeds, fetchCatByBreed } from './cat-api';
+import { fetchBreeds, fetchCatByBreed, onFetchError } from './cat-api';
 import '../css/style.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SlimSelect from 'slim-select';
@@ -12,12 +12,23 @@ const ref = {
 };
 const { selector, catInfo, loader, error } = ref;
 
-selector.addEventListener('change', onSelectBreed);
-
-selector.classList.add('is-hidden');
-loader.classList.replace('loader', 'is-hidden');
+// При загрузке страницы - лоадер есть , а селект и инфо скрытые
+classListHidden();
 error.classList.add('is-hidden');
 
+// Для скрытия функция loader, selector, catInfo
+function classListHidden() {
+  loader.classList.remove('is-hidden');
+  selector.classList.add('is-hidden');
+  catInfo.classList.add('is-hidden');
+}
+
+// Для скрытия функция loader
+function classHiddenLoader() {
+  loader.classList.add('is-hidden');
+}
+
+//Загрузилась страница - селект виден
 fetchBreeds()
   .then(function (data) {
     const arrBreedsId = data.map(element => {
@@ -27,20 +38,21 @@ fetchBreeds()
       select: selector,
       data: arrBreedsId,
     });
+    selector.classList.remove('is-hidden');
+    selector.addEventListener('change', onSelectBreed);
   })
   .catch(onFetchError)
-  .finally(loader.classList.replace('loader', 'is-hidden'));
+  .finally(classHiddenLoader);
 
+// При выборе породы - лоадер, скрывается селект и информацию о коте
 function onSelectBreed(event) {
-  loader.classList.replace('is-hidden', 'loader');
-  selector.classList.add('is-hidden');
-  catInfo.classList.add('is-hidden');
+  classListHidden();
 
   const breedId = event.target.value;
 
   fetchCatByBreed(breedId)
     .then(data => {
-      loader.classList.replace('loader', 'is-hidden');
+      loader.classList.add('is-hidden');
       selector.classList.remove('is-hidden');
 
       const { url, breeds } = data[0];
@@ -54,12 +66,13 @@ function onSelectBreed(event) {
                           ${breeds[0].temperament}</p></div>`;
       catInfo.classList.remove('is-hidden');
     })
-    .catch(onFetchError);
+    .catch(onFetchError)
+    .finally(classHiddenLoader);
 }
 
 function onFetchError(error) {
-  selector.classList.remove('is-hidden');
-  loader.classList.replace('loader', 'is-hidden');
+  selector.classList.add('is-hidden');
+  loader.classList.add('is-hidden');
 
   Notify.failure(
     'Oops! Something went wrong! Try reloading the page or select another cat breed!',
