@@ -28,7 +28,7 @@ function classHiddenLoader() {
   loader.classList.add('is-hidden');
 }
 
-//Загрузилась страница - селект виден
+//Загрузилась страница, селект виден
 fetchBreeds()
   .then(function (data) {
     const arrBreedsId = data.map(element => {
@@ -41,7 +41,7 @@ fetchBreeds()
     selector.classList.remove('is-hidden');
     selector.addEventListener('change', onSelectBreed);
   })
-  .catch(onFetchError)
+  .catch(onFetchError())
   .finally(classHiddenLoader);
 
 // При выборе породы - лоадер, скрывается селект и информацию о коте
