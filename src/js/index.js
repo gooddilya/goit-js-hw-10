@@ -2,7 +2,7 @@ import { fetchBreeds, fetchCatByBreed, onFetchError } from './cat-api';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SlimSelect from 'slim-select';
 import 'slim-select/dist/slimselect.css';
-import '../css/style.css';
+// import '../css/style.css';
 
 const ref = {
   selector: document.querySelector('.breed-select'),
@@ -41,7 +41,7 @@ fetchBreeds()
     selector.classList.remove('is-hidden');
     selector.addEventListener('change', onSelectBreed);
   })
-  .catch(onFetchError())
+  .catch(onFetchError)
   .finally(classHiddenLoader);
 
 // При выборе породы - лоадер, скрывается селект и информацию о коте
