@@ -15,6 +15,6 @@ export function fetchCatByBreed(breedId) {
     .then(response => response.data);
 }
 
-export function onFetchError(error) {
+export function onFetchError(_error) {
   return axios.get('breeds123').then(response => response.data);
 }
