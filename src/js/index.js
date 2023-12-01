@@ -70,7 +70,7 @@ function onSelectBreed(event) {
     .finally(classHiddenLoader);
 }
 
-function onFetchError(error) {
+function onFetchError(_error) {
   selector.classList.add('is-hidden');
   loader.classList.add('is-hidden');
 
